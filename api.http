@@ -1,0 +1,48 @@
+
+
+GET  http://localhost:5000/api/v1/user/register
+Content-Type: application/json
+
+{
+    "email": "admin1@gmail.com",
+    "password": "123456"
+}  
+###
+GET  http://localhost:5000/api/v1/user/login
+Content-Type: application/json
+
+{
+    "email": "admin1@gmail.com",
+    "password": "123456"
+} 
+###
+
+GET  http://localhost:5000/api/v1/user/comment
+Content-Type: application/json
+
+{
+    "email": "admin1@gmail.com",
+    "password": "123456"
+}  
+###
+Get  http://localhost:5000/api/v1/book/?=idBook:2086966184
+###
+Get  http://localhost:5000/api/v1/book/savebook
+###
+Get  http://localhost:5000/api/v1/book/QUỶ ÁN LÀNG ẨN
+Content-Type: application/json
+
+{
+   "id":"1"
+}  
+###
+Get  http://localhost:5000/api/v1/author/
+
+###
+Get  http://localhost:5000/api/v1/author/Lâm Chí Vỉnh
+###
+
+Get  http://localhost:5000/api/v1/genre/
+###
+
+Get  http://localhost:5000/api/v1/genre/Trinh thám
