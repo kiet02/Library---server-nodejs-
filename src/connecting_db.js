@@ -19,18 +19,26 @@ const Book= sequelize.define(
       allowNull: false,
 
     },
+    
     name: {
       type: Sequelize.DataTypes.STRING,
     },
     img: {
       type: Sequelize.DataTypes.STRING,
     },
-    author: {
-      type: Sequelize.DataTypes.INTEGER,
+    authorId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Authors',
+        key: 'id'
+      }
     },
-    genre: {
-      type: Sequelize.DataTypes.INTEGER,
-      foreignKey:true
+    genreId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Genres',
+        key: 'id'
+      }
     },
     describe: {
       type: Sequelize.DataTypes.STRING,
@@ -41,12 +49,14 @@ const Book= sequelize.define(
 
 
 
-const Authors = sequelize.define("Authors", {
-  // id: { type: Sequelize.DataTypes.STRING , primaryKey:true },
-
-  name: { type: Sequelize.DataTypes.STRING , primaryKey:true },
-  img: { type: Sequelize.DataTypes.STRING },
-
+const Authors = sequelize.define('Author', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  name: DataTypes.STRING,
+  img: DataTypes.STRING
 });
 
 
@@ -58,15 +68,16 @@ const Chapter = sequelize.define("Chapter", {
   content:{ type: Sequelize.DataTypes.STRING },
 });
 
-const genre = sequelize.define("Genre", {
-  // id: {
-  //   type: Sequelize.DataTypes.INTEGER,
-  //   autoIncrement:true
-  // },
-  name: { type: Sequelize.DataTypes.STRING,
-    primaryKey:true,
-   },
-  
+const genre = sequelize.define('Genre', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
 });
 
 const Bookreview = sequelize.define("Bookreview", {
@@ -99,13 +110,20 @@ const SaveBook = sequelize.define("SaveBook",{
   // },
 })
 
-const History = sequelize.define("hitstory",{
-  
- location: { type: Sequelize.DataTypes.STRING },
- chapter: { type: Sequelize.DataTypes.INTEGER },
- complete:{type: Sequelize.DataTypes.INTEGER },
- value:{type: Sequelize.DataTypes.FLOAT },
-})
+const History = sequelize.define("History", {
+  id: {
+    type: Sequelize.DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  location: Sequelize.DataTypes.STRING,
+  chapter: Sequelize.DataTypes.INTEGER,
+  complete: Sequelize.DataTypes.INTEGER,
+  value: Sequelize.DataTypes.FLOAT,
+  idUser: Sequelize.DataTypes.INTEGER,
+  idBook: Sequelize.DataTypes.INTEGER
+});
+
 
 
 
@@ -144,10 +162,12 @@ console.log(data);
 
   
 
-Authors.belongsTo(Book,{foreignKey:'name',as:'Author_Book',targetKey:'author'}); 
-Book.hasOne(Authors,{foreignKey:'id',as:'Author_Book',targetKey:'author'}); 
+Authors.hasMany(Book, { foreignKey: 'authorId', as: 'Books' });
+Book.belongsTo(Authors, { foreignKey: 'authorId', as: 'Author' });
 Chapter.belongsTo(Book,{foreignKey:'idBook',as:'Chapter_Book',targetKey:'idBook'}); 
-genre.belongsTo(Book,{foreignKey:'name',as:'Genre_Book',targetKey:'genre'}); 
+genre.hasMany(Book, { foreignKey: 'genreId', as: 'Books' });
+Book.belongsTo(genre, { foreignKey: 'genreId', as: 'Genre' });
+
 Bookreview.belongsTo(Book,{foreignKey:'interaction'})
 Bookreview.belongsTo(User,{foreignKey:'idUser'})
 
@@ -155,9 +175,8 @@ SaveBook.belongsTo(User,{foreignKey:'idUser'})
 SaveBook.belongsTo(Book,{foreignKey:'idBook'})
 
 
-History.belongsTo(User,{foreignKey:'idUser'})
-History.belongsTo(Book,{foreignKey:'idBook'})
-
+History.belongsTo(User, { foreignKey: 'idUser' });
+History.belongsTo(Book, { foreignKey: 'idBook' });
 
 
 
