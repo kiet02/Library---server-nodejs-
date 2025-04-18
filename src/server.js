@@ -6,6 +6,7 @@ const https = require("https");
 const { sequelize } = require("../src/models");
 const initRoutes = require("../src/routes");
 const path = require("path");
+const db = require("./models");
 // const { importBooks } = require('./insert');
 const app = express();
 
