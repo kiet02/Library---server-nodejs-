@@ -1,11 +1,13 @@
 {
   "name": "library-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Library management system API server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec babel-node index.js"
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec babel-node src/server.js",
+    "build": "babel src -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
